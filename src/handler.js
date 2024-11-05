@@ -30,6 +30,7 @@ const addBookHandler = (request, h) => {
         return response;
     }
 
+    // Buat objek buku baru
     const newBook = {
         name, year, author, summary, publisher, pageCount, readPage, reading,
         id, finished, insertedAt, updatedAt,
@@ -37,7 +38,7 @@ const addBookHandler = (request, h) => {
 
     books.push(newBook);
 
-
+    // Cek apakah buku berhasil ditambahkan
     const isSuccess = books.filter((book) => book.id === id).length > 0;
 
     if (isSuccess) {
@@ -52,6 +53,7 @@ const addBookHandler = (request, h) => {
         return response;
     }
 
+    // Default response jika terjadi kesalahan
     const response = h.response({
         status: 'error',
         message: 'Buku gagal ditambahkan',
@@ -60,6 +62,7 @@ const addBookHandler = (request, h) => {
     return response;
 };
 
+/// ADDBOOK HANDLER SUDAH CLEAR!
 
 
 const getAllBooksHandler = (request, h) => {
@@ -97,6 +100,23 @@ const getAllBooksHandler = (request, h) => {
     };
 };
 
+
+
+// const getAllBooksHandler = () => {
+//     const outputBook = books.map((book) => ({
+//         id: book.id,
+//         name: book.name,
+//         publisher: book.publisher,
+//     }));
+
+//     return {
+//         status: 'success',
+//         data: {
+//             books: outputBook
+//         }
+//     };
+// };
+
 const getBookByIdHandler = (request, h) => {
     const { id } = request.params;
     const book = books.filter((n) => n.id === id)[0];
@@ -110,6 +130,12 @@ const getBookByIdHandler = (request, h) => {
         });
         response.code(200);
         return response;
+        // return {
+        //     status: 'success',
+        //     data: {
+        //         book,
+        //     }
+        // };
     }
     const response = h.response({
         status: 'fail',
