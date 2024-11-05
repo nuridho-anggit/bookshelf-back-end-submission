@@ -65,8 +65,28 @@ const addBookHandler = (request, h) => {
 /// ADDBOOK HANDLER SUDAH CLEAR!
 
 
-const getAllBooksHandler = () => {
-    const outputBook = books.map((book) => ({
+const getAllBooksHandler = (request, h) => {
+    const { name, reading, finished } = request.query;
+
+    let filteredBooks = books;
+
+    if (name !== undefined) {
+        filteredBooks = filteredBooks.filter((book) =>
+            book.name.toLowerCase().includes(name.toLowerCase())
+        );
+    }
+
+    if (reading !== undefined) {
+        const isReading = reading === '1';
+        filteredBooks = filteredBooks.filter((book) => book.reading === isReading);
+    }
+
+    if (finished !== undefined) {
+        const isFinished = finished === '1';
+        filteredBooks = filteredBooks.filter((book) => book.finished === isFinished);
+    }
+
+    const outputBooks = filteredBooks.map((book) => ({
         id: book.id,
         name: book.name,
         publisher: book.publisher,
@@ -75,10 +95,27 @@ const getAllBooksHandler = () => {
     return {
         status: 'success',
         data: {
-            books: outputBook
-        }
+            books: outputBooks,
+        },
     };
 };
+
+
+
+// const getAllBooksHandler = () => {
+//     const outputBook = books.map((book) => ({
+//         id: book.id,
+//         name: book.name,
+//         publisher: book.publisher,
+//     }));
+
+//     return {
+//         status: 'success',
+//         data: {
+//             books: outputBook
+//         }
+//     };
+// };
 
 const getBookByIdHandler = (request, h) => {
     const { id } = request.params;
